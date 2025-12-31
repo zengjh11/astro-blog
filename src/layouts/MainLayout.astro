@@ -1,0 +1,61 @@
+---
+import ThemeToggle from "../components/ThemeToggle.astro";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{Astro.props.title || "我的博客"}</title>
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <script>
+      // 尽早设置主题，避免白屏闪烁
+      (function () {
+        const getCurrentTheme = () => {
+          const storedTheme = localStorage.getItem("theme");
+          if (storedTheme) {
+            return storedTheme;
+          }
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        };
+
+        const theme = getCurrentTheme();
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1 class="logo">
+          <a href="/">oo</a>
+        </h1>
+        <div class="header-right">
+          <nav class="nav">
+            <ul class="nav-list">
+              <li class="nav-item"><a href="/">首页</a></li>
+              <li class="nav-item"><a href="/blog">博客</a></li>
+              <li class="nav-item"><a href="/about">关于</a></li>
+            </ul>
+          </nav>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; {new Date().getFullYear()} oo. 保留所有权利.</p>
+      </div>
+    </footer>
+  </body>
+</html>

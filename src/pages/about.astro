@@ -1,0 +1,106 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="关于我">
+  <section class="about-page">
+    <h2>关于我</h2>
+
+    <div class="about-content">
+      <div class="about-text">
+        <p>您好！我是一名热爱技术的开发者，欢迎访问我的个人博客。</p>
+        <p>
+          我创建这个博客的目的是分享我的学习经验、技术见解和项目实践。在这里，您可以找到关于Web开发、编程技巧、前端技术等方面的文章。
+        </p>
+        <p>
+          我相信技术的力量可以改变世界，而分享知识是推动技术进步的重要方式。希望我的文章能够对您有所帮助和启发。
+        </p>
+      </div>
+
+      <div class="about-info">
+        <h3>我的技能</h3>
+        <ul class="skills-list">
+          <li>HTML5 & CSS3</li>
+          <li>JavaScript & TypeScript</li>
+          <li>React & Vue.js</li>
+          <li>Astro & 静态站点生成</li>
+          <li>Node.js & Express</li>
+        </ul>
+
+        <h3>联系我</h3>
+        <p>邮箱：...</p>
+        <p>
+          GitHub：<a href="https://github.com" target="_blank">github.com</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .about-page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-page h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+  }
+
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-text p {
+    margin-bottom: 1rem;
+    color: var(--text-color-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .about-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .skills-list {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .skills-list li {
+    background-color: var(--tag-background);
+    color: var(--tag-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  .about-info p {
+    margin-bottom: 0.8rem;
+    color: var(--text-color-light);
+  }
+
+  .about-info a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .about-info a:hover {
+    opacity: 0.9;
+  }
+
+  @media (min-width: 768px) {
+    .about-content {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+</style>

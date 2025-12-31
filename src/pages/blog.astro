@@ -1,0 +1,71 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import BlogCard from "../components/BlogCard.astro";
+import { getCollection } from "astro:content";
+
+// 获取所有博客文章并按日期排序
+const posts = await getCollection("blog");
+
+const sortedPosts = posts.sort((a, b) => {
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+---
+
+<MainLayout title="博客文章">
+  <section class="blog-page">
+    <h2>所有博客文章</h2>
+    <p>共 {sortedPosts.length} 篇文章</p>
+
+    <div class="blog-list">
+      {
+        sortedPosts.length > 0 ? (
+          sortedPosts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              slug={post.slug}
+              tags={post.data.tags}
+            />
+          ))
+        ) : (
+          <div class="no-posts">
+            <p>暂无博客文章，敬请期待！</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .blog-page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .blog-page h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .blog-page p {
+    font-size: 1rem;
+    color: var(--text-color-light);
+    margin-bottom: 2rem;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--text-color-light);
+    font-size: 1.1rem;
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import MainLayout from "./MainLayout.astro";
+import BlogPostHeader from "../components/BlogPostHeader.astro";
+
+const { post } = Astro.props;
+---
+
+<MainLayout title={post.data.title}>
+  <article class="blog-post">
+    <BlogPostHeader
+      title={post.data.title}
+      date={post.data.date}
+      author={post.data.author}
+      image={post.data.image}
+    />
+
+    <div class="blog-post-content">
+      <slot />
+    </div>
+
+    {
+      post.data.tags && post.data.tags.length > 0 && (
+        <div class="blog-post-tags">
+          <h3>标签:</h3>
+          <ul class="tags-list">
+            {post.data.tags.map((tag: string) => (
+              <li class="tag-item">
+                <a href={`/blog/tags/${tag}`}>{tag}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </article>
+</MainLayout>

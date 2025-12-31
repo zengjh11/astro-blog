@@ -1,0 +1,156 @@
+---
+// 主题切换按钮组件
+---
+
+<button
+  id="theme-toggle"
+  class="theme-toggle"
+  aria-label="切换主题"
+  title="切换主题"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="theme-icon theme-icon-sun"
+  >
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="theme-icon theme-icon-moon"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    transition:
+      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .theme-toggle:hover {
+    background-color: var(--border-color);
+    transform: scale(1.15);
+    box-shadow: none;
+  }
+
+  .theme-toggle:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .theme-toggle:active {
+    box-shadow: none;
+  }
+
+  .theme-icon {
+    transition:
+      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      fill 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+  }
+
+  .theme-icon-sun {
+    display: block;
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+
+  .theme-icon-moon {
+    display: block;
+    transform: rotate(-90deg);
+    opacity: 0;
+  }
+
+  [data-theme="dark"] .theme-icon-sun {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+
+  [data-theme="dark"] .theme-icon-moon {
+    transform: rotate(0deg);
+    opacity: 1;
+    fill: rgba(255, 255, 255, 0.2);
+  }
+</style>
+
+<script>
+  // 主题切换逻辑
+  const toggleButton: HTMLElement | null =
+    document.getElementById("theme-toggle");
+
+  // 获取当前主题（优先从localStorage获取，否则使用系统默认）
+  const getCurrentTheme = (): string => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      return storedTheme;
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  // 设置主题
+  const setTheme = (theme: string): void => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  };
+
+  // 初始化主题
+  setTheme(getCurrentTheme());
+
+  // 切换主题事件
+  if (toggleButton) {
+    toggleButton.addEventListener("click", () => {
+      const currentTheme: string = getCurrentTheme();
+      const newTheme: string = currentTheme === "light" ? "dark" : "light";
+      setTheme(newTheme);
+    });
+  }
+
+  // 监听系统主题变化
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem("theme")) {
+        setTheme(e.matches ? "dark" : "light");
+      }
+    });
+</script>
